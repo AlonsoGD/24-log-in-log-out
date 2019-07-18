@@ -1,7 +1,16 @@
 import React from "react";
+import TimeEntriesTable from "./TimeEntriesTable.jsx";
+import handleClientLoad from "../googleAuth";
 
-function App() {
-  return <div className="App">React yeah</div>;
+class App extends React.Component {
+  render() {
+    return (
+      <div className="App">
+        {handleClientLoad()}
+        <TimeEntriesTable />
+      </div>
+    );
+  }
 }
 
 export default App;

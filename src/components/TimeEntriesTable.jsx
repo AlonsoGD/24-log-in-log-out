@@ -1,15 +1,14 @@
 import React from "react";
-import config from "../config.js";
 
-class TimeEntriesTable extends React.Component {
-  state = { timeEntries: [] };
+const TimeEntriesTable = (props) => {
+  if (props.timeEntries === []) {
+    return <div>Loading...</div>;
+  }
 
-  renderTableData = () => {
-    let tableStyle = { border: "1px solid black" };
-
-    return this.state.timeEntries.map((e) => {
+  const renderTableData = () => {
+    return props.timeEntries.map((e) => {
       return (
-        <tr key={this.state.timeEntries.indexOf(e)}>
+        <tr key={props.timeEntries.indexOf(e)}>
           <td>{e[0]}</td>
           <td>{e[1]}</td>
         </tr>
@@ -17,38 +16,19 @@ class TimeEntriesTable extends React.Component {
     });
   };
 
-  retrieveData = () => {
-    window.gapi.client.sheets.spreadsheets.values
-      .get({
-        spreadsheetId: config.SPREADSHEETID,
-        range: "Sheet1!A2:C"
-      })
-      .then(
-        (response) => {
-          this.setState({ timeEntries: response.result.values });
-        },
-        (response) => {
-          console.log("Error: " + response.result.error.message);
-        }
-      );
-  };
-
-  render() {
-    return (
-      <div>
-        <button onClick={this.retrieveData}>Retrieve data</button>
-        <table>
-          <tbody>
-            <tr>
-              <th>Start Time</th>
-              <th>End Time</th>
-            </tr>
-            {this.renderTableData()}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <table>
+        <tbody>
+          <tr>
+            <th>Start Time</th>
+            <th>End Time</th>
+          </tr>
+          {renderTableData()}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 export default TimeEntriesTable;

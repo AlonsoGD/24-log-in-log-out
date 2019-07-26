@@ -1,6 +1,9 @@
 import React from "react";
 import TimeEntriesTable from "./TimeEntriesTable.jsx";
+import InputDate from "./InputDate.jsx"
+
 import config from "../config";
+import styles from "./App.module.css"
 
 let authorizeButton = document.getElementById("authorize_button");
 let signoutButton = document.getElementById("signout_button");
@@ -100,8 +103,9 @@ class App extends React.Component {
     }
 
     return (
-      <div className="App">
+      <div className={styles.test}>
         <TimeEntriesTable timeEntries={this.state.timeEntries} />
+        <InputDate></InputDate>
       </div>
     );
   }

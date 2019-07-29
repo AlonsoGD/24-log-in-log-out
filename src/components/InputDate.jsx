@@ -1,37 +1,49 @@
-import React from 'react'
-
-const toDateInputValue = (() => {
-    let local = new Date();
-    local.setMinutes(local.getMinutes() - local.getTimezoneOffset());
-    return local.toISOString().slice(0, 10);
-});
-
-const toTimeInputValue = (() => {
-    let local = new Date();
-    local.setMinutes(local.getMinutes() - local.getTimezoneOffset());
-    return local.toISOString().slice(11, 16);
-});
-
+import React from "react";
+import { toTimeInputValue, toDateInputValue } from "../helpers.js";
 
 class InputDate extends React.Component {
-    state = {
-        date: toDateInputValue(), 
-        time: toTimeInputValue() };
+  state = {
+    date: toDateInputValue(),
+    time: toTimeInputValue()
+  };
 
-    onFormSubmit = (event) => {
-        let fullDate = this.state.date + " " + this.state.time;
-        console.log(new Date(fullDate))
-        event.preventDefault();
-    }
+  stateToDate = () => {
+    let fullDate = this.state.date + " " + this.state.time;
+    return new Date(fullDate);
+  };
 
-    render() {
-        return (
-        <form onSubmit={this.onFormSubmit}>
-                <input type="date" value={this.state.date} onChange={(e) => { this.setState({ date: e.target.value })}}/>
-                <input type="time" value={this.state.time} onChange={(e) => { this.setState({ time: e.target.value })}}/>
-                <button type="submit">Submit</button>
-        </form>);
-    }
+  saveLogIn = () => {
+    this.props.saveLogIn(this.stateToDate());
+    this.setState({ disableButton: true });
+  };
+
+  saveLogOut = () => {
+    this.props.saveLogOut(this.stateToDate());
+    this.setState({ disableButton: false });
+  };
+
+  render() {
+    return (
+      <>
+        <input
+          type="date"
+          value={this.state.date}
+          onChange={(e) => {
+            this.setState({ date: e.target.value });
+          }}
+        />
+        <input
+          type="time"
+          value={this.state.time}
+          onChange={(e) => {
+            this.setState({ time: e.target.value });
+          }}
+        />
+        <button onClick={this.saveLogIn}>Log in</button>
+        <button onClick={this.saveLogOut}>Log out</button>
+      </>
+    );
+  }
 }
 
 export default InputDate;

@@ -6,6 +6,13 @@ const TimeEntriesTable = (props) => {
   }
 
   const renderTableData = () => {
+    if (props.timeEntries === undefined) {
+      return (
+        <tr>
+          <td>No entries yet...</td>
+        </tr>
+      );
+    }
     return props.timeEntries.map((e) => {
       return (
         <tr key={props.timeEntries.indexOf(e)}>

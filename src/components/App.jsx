@@ -1,15 +1,15 @@
 import React from "react";
 import TimeEntriesTable from "./TimeEntriesTable.jsx";
-import InputDate from "./InputDate.jsx"
+import InputDate from "./InputDate.jsx";
 
 import config from "../config";
-import styles from "./App.module.css"
+import styles from "./App.module.css";
 
 let authorizeButton = document.getElementById("authorize_button");
 let signoutButton = document.getElementById("signout_button");
 
 class App extends React.Component {
-  state = { isSignedIn: false, timeEntries: [] };
+  state = { isSignedIn: false, timeEntries: [], isLogInCellPopulated: "" };
 
   initClient = () => {
     window.gapi.client
@@ -75,6 +75,23 @@ class App extends React.Component {
     });
   };
 
+  //checks if log in cell in the spreadsheet is populated
+  isLogInCellPopulated = () => {
+    if (this.state.timeEntries === undefined) {
+      this.setState({ isLogInCellPopulated: "false" });
+    } else {
+      let lastTimeEntry = this.state.timeEntries[
+        this.state.timeEntries.length - 1
+      ];
+
+      if (lastTimeEntry[1] === undefined) {
+        this.setState({ isLogInCellPopulated: true });
+      } else {
+        this.setState({ isLogInCellPopulated: false });
+      }
+    }
+  };
+
   retrieveData = () => {
     if (this.state.isSignedIn === true) {
       window.gapi.client.sheets.spreadsheets.values
@@ -85,12 +102,60 @@ class App extends React.Component {
         .then(
           (response) => {
             this.setState({ timeEntries: response.result.values });
+            this.isLogInCellPopulated();
           },
           (response) => {
             console.log("Error: " + response.result.error.message);
           }
         );
     }
+  };
+
+  saveLogInDate = (date) => {
+    let values = [[date]];
+
+    let body = {
+      values: values
+    };
+    window.gapi.client.load("sheets", "v4", () => {
+      window.gapi.client.sheets.spreadsheets.values
+        .append({
+          spreadsheetId: config.SPREADSHEETID,
+          range: "Sheet1",
+          valueInputOption: "USER_ENTERED",
+          resource: body
+        })
+        .then((response) => {
+          let result = response.result;
+          console.log(`${result.updates.updatedCells} cells appended.`);
+          this.retrieveData();
+        });
+    });
+  };
+
+  saveLogOutDate = (date) => {
+    let range = `Sheet1!B${this.state.timeEntries.length + 1}:C`;
+
+    let values = [[date]];
+
+    let body = {
+      values: values
+    };
+
+    window.gapi.client.load("sheets", "v4", () => {
+      window.gapi.client.sheets.spreadsheets.values
+        .update({
+          spreadsheetId: config.SPREADSHEETID,
+          range: range,
+          valueInputOption: "USER_ENTERED",
+          resource: body
+        })
+        .then((response) => {
+          var result = response.result;
+          console.log(`${result.updatedCells} cells updated.`);
+          this.retrieveData();
+        });
+    });
   };
 
   componentDidMount = () => {
@@ -105,7 +170,11 @@ class App extends React.Component {
     return (
       <div className={styles.test}>
         <TimeEntriesTable timeEntries={this.state.timeEntries} />
-        <InputDate></InputDate>
+        <InputDate
+          saveLogIn={this.saveLogInDate}
+          saveLogOut={this.saveLogOutDate}
+          isLogInCellPopulated={this.state.isLogInCellPopulated}
+        />
       </div>
     );
   }

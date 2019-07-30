@@ -39,14 +39,9 @@ class InputDate extends React.Component {
           }}
         />
         <LogButton
-          action={this.saveLogIn}
-          buttonText="Log in Entry"
+          saveLogOut={this.saveLogOut}
+          saveLogIn={this.saveLogIn}
           isLogInCellPopulated={this.props.isLogInCellPopulated}
-        />
-        <LogButton
-          action={this.saveLogOut}
-          buttonText="Log Out Entry"
-          isLogInCellPopulated={!this.props.isLogInCellPopulated}
         />
       </>
     );

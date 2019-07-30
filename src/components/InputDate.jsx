@@ -1,5 +1,6 @@
 import React from "react";
 import { toTimeInputValue, toDateInputValue } from "../helpers.js";
+import LogButton from "./LogButton.jsx";
 
 class InputDate extends React.Component {
   state = {
@@ -14,12 +15,10 @@ class InputDate extends React.Component {
 
   saveLogIn = () => {
     this.props.saveLogIn(this.stateToDate());
-    this.setState({ disableButton: true });
   };
 
   saveLogOut = () => {
     this.props.saveLogOut(this.stateToDate());
-    this.setState({ disableButton: false });
   };
 
   render() {
@@ -39,8 +38,16 @@ class InputDate extends React.Component {
             this.setState({ time: e.target.value });
           }}
         />
-        <button onClick={this.saveLogIn}>Log in</button>
-        <button onClick={this.saveLogOut}>Log out</button>
+        <LogButton
+          action={this.saveLogIn}
+          buttonText="Log in Entry"
+          isLogInCellPopulated={this.props.isLogInCellPopulated}
+        />
+        <LogButton
+          action={this.saveLogOut}
+          buttonText="Log Out Entry"
+          isLogInCellPopulated={!this.props.isLogInCellPopulated}
+        />
       </>
     );
   }

@@ -9,7 +9,7 @@ let authorizeButton = document.getElementById("authorize_button");
 let signoutButton = document.getElementById("signout_button");
 
 class App extends React.Component {
-  state = { isSignedIn: false, timeEntries: [], isLogInCellPopulated: "" };
+  state = { isSignedIn: false, timeEntries: [], isLogInCellPopulated: "load" };
 
   initClient = () => {
     window.gapi.client
@@ -78,7 +78,7 @@ class App extends React.Component {
   //checks if log in cell in the spreadsheet is populated
   isLogInCellPopulated = () => {
     if (this.state.timeEntries === undefined) {
-      this.setState({ isLogInCellPopulated: "false" });
+      this.setState({ isLogInCellPopulated: false });
     } else {
       let lastTimeEntry = this.state.timeEntries[
         this.state.timeEntries.length - 1
@@ -102,22 +102,24 @@ class App extends React.Component {
         .then(
           (response) => {
             this.setState({ timeEntries: response.result.values });
-            this.isLogInCellPopulated();
           },
           (response) => {
             console.log("Error: " + response.result.error.message);
           }
-        );
+        )
+        .then(() => {
+          this.isLogInCellPopulated();
+        });
     }
   };
 
-  saveLogInDate = (date) => {
+  saveLogInDate = async (date) => {
     let values = [[date]];
 
     let body = {
       values: values
     };
-    window.gapi.client.load("sheets", "v4", () => {
+    await window.gapi.client.load("sheets", "v4", () => {
       window.gapi.client.sheets.spreadsheets.values
         .append({
           spreadsheetId: config.SPREADSHEETID,
@@ -129,11 +131,12 @@ class App extends React.Component {
           let result = response.result;
           console.log(`${result.updates.updatedCells} cells appended.`);
           this.retrieveData();
+          this.setState({ isLogInCellPopulated: "load" });
         });
     });
   };
 
-  saveLogOutDate = (date) => {
+  saveLogOutDate = async (date) => {
     let range = `Sheet1!B${this.state.timeEntries.length + 1}:C`;
 
     let values = [[date]];
@@ -142,7 +145,7 @@ class App extends React.Component {
       values: values
     };
 
-    window.gapi.client.load("sheets", "v4", () => {
+    await window.gapi.client.load("sheets", "v4", () => {
       window.gapi.client.sheets.spreadsheets.values
         .update({
           spreadsheetId: config.SPREADSHEETID,
@@ -154,6 +157,7 @@ class App extends React.Component {
           var result = response.result;
           console.log(`${result.updatedCells} cells updated.`);
           this.retrieveData();
+          this.setState({ isLogInCellPopulated: "load" });
         });
     });
   };

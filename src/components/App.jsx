@@ -4,12 +4,14 @@ import InputDate from "./InputDate.jsx";
 
 import config from "../config";
 import styles from "./App.module.css";
-
-let authorizeButton = document.getElementById("authorize_button");
-let signoutButton = document.getElementById("signout_button");
+import AuthButton from "./AuthButton.jsx";
 
 class App extends React.Component {
-  state = { isSignedIn: false, timeEntries: [], isLogInCellPopulated: "load" };
+  state = {
+    isSignedIn: "load",
+    timeEntries: [],
+    isLogInCellPopulated: "load"
+  };
 
   initClient = () => {
     window.gapi.client
@@ -22,16 +24,7 @@ class App extends React.Component {
       .then(
         () => {
           // Listen for sign-in state changes.
-          window.gapi.auth2
-            .getAuthInstance()
-            .isSignedIn.listen(this.updateSigninStatus);
-
-          // Handle the initial sign-in state.
-          this.updateSigninStatus(
-            window.gapi.auth2.getAuthInstance().isSignedIn.get()
-          );
-          authorizeButton.onclick = this.handleAuthClick;
-          signoutButton.onclick = this.handleSignoutClick;
+          window.gapi.auth2.getAuthInstance();
           this.setState({
             isSignedIn: window.gapi.auth2.getAuthInstance().isSignedIn.get()
           });
@@ -43,24 +36,12 @@ class App extends React.Component {
       );
   };
 
-  updateSigninStatus = (isSignedIn) => {
-    if (isSignedIn) {
-      authorizeButton.style.display = "none";
-      signoutButton.style.display = "block";
-    } else {
-      authorizeButton.style.display = "block";
-      signoutButton.style.display = "none";
-    }
-  };
-
   /**
    *  Sign in the user upon button click.
    */
-  handleAuthClick = async (event) => {
-    await window.gapi.auth2.getAuthInstance().signIn();
-
+  handleAuthClick = (statusFromAuthButton) => {
     this.setState({
-      isSignedIn: window.gapi.auth2.getAuthInstance().isSignedIn.get()
+      isSignedIn: statusFromAuthButton
     });
     this.retrieveData();
   };
@@ -68,10 +49,9 @@ class App extends React.Component {
   /**
    *  Sign out the user upon button click.
    */
-  handleSignoutClick = async (event) => {
-    await window.gapi.auth2.getAuthInstance().signOut();
+  handleSignoutClick = (statusFromAuthButton) => {
     this.setState({
-      isSignedIn: window.gapi.auth2.getAuthInstance().isSignedIn.get()
+      isSignedIn: statusFromAuthButton
     });
   };
 
@@ -113,13 +93,14 @@ class App extends React.Component {
     }
   };
 
-  saveLogInDate = async (date) => {
+  saveLogIn = (date) => {
+    this.setState({ isLogInCellPopulated: "load" });
     let values = [[date]];
 
     let body = {
       values: values
     };
-    await window.gapi.client.load("sheets", "v4", () => {
+    window.gapi.client.load("sheets", "v4", () => {
       window.gapi.client.sheets.spreadsheets.values
         .append({
           spreadsheetId: config.SPREADSHEETID,
@@ -131,12 +112,12 @@ class App extends React.Component {
           let result = response.result;
           console.log(`${result.updates.updatedCells} cells appended.`);
           this.retrieveData();
-          this.setState({ isLogInCellPopulated: "load" });
         });
     });
   };
 
-  saveLogOutDate = async (date) => {
+  saveLogOut = (date) => {
+    this.setState({ isLogInCellPopulated: "load" });
     let range = `Sheet1!B${this.state.timeEntries.length + 1}:C`;
 
     let values = [[date]];
@@ -145,7 +126,7 @@ class App extends React.Component {
       values: values
     };
 
-    await window.gapi.client.load("sheets", "v4", () => {
+    window.gapi.client.load("sheets", "v4", () => {
       window.gapi.client.sheets.spreadsheets.values
         .update({
           spreadsheetId: config.SPREADSHEETID,
@@ -157,7 +138,6 @@ class App extends React.Component {
           var result = response.result;
           console.log(`${result.updatedCells} cells updated.`);
           this.retrieveData();
-          this.setState({ isLogInCellPopulated: "load" });
         });
     });
   };
@@ -167,16 +147,32 @@ class App extends React.Component {
   };
 
   render() {
-    if (this.state.isSignedIn === false) {
-      return <div>Please sign in with your Google Account</div>;
+    if (this.state.isSignedIn === "load") {
+      return <div>LOADING...</div>;
+    } else if (this.state.isSignedIn === false) {
+      return (
+        <div className={styles.test}>
+          <AuthButton
+            handleAuthClick={this.handleAuthClick}
+            handleSignoutClick={this.handleSignoutClick}
+            isSignedIn={this.state.isSignedIn}
+          />
+          <div>Please sign in with your Google Account</div>
+        </div>
+      );
     }
 
     return (
       <div className={styles.test}>
+        <AuthButton
+          handleAuthClick={this.handleAuthClick}
+          handleSignoutClick={this.handleSignoutClick}
+          isSignedIn={this.state.isSignedIn}
+        />
         <TimeEntriesTable timeEntries={this.state.timeEntries} />
         <InputDate
-          saveLogIn={this.saveLogInDate}
-          saveLogOut={this.saveLogOutDate}
+          saveLogIn={this.saveLogIn}
+          saveLogOut={this.saveLogOut}
           isLogInCellPopulated={this.state.isLogInCellPopulated}
         />
       </div>

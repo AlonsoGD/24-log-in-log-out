@@ -1,10 +1,11 @@
 import React from "react";
+
 import TimeEntriesTable from "./TimeEntriesTable.jsx";
 import InputDate from "./InputDate.jsx";
+import AuthButton from "./AuthButton.jsx";
 
 import config from "../config";
 import styles from "./App.module.css";
-import AuthButton from "./AuthButton.jsx";
 
 class App extends React.Component {
   state = {
@@ -88,7 +89,7 @@ class App extends React.Component {
             }
           },
           (response) => {
-            console.log("Error: " + response.result.error.message);
+            alert("Error: " + response.result.error.message);
           }
         )
         .then(() => {
@@ -97,11 +98,32 @@ class App extends React.Component {
     }
   };
 
-  saveLogIn = (date) => {
+  updateLogOutTimeEntriesState = (date) => {
+    let lastArrayInState = this.state.timeEntries[
+      this.state.timeEntries.length - 1
+    ][0];
+    let previousState = this.state.timeEntries;
+
+    previousState.pop();
+
     this.setState({
-      isLogInCellPopulated: "load",
+      timeEntries: [...previousState, [lastArrayInState, date.toJSON()]]
+    });
+  };
+
+  updateLogInTimeEntriesState = (date) => {
+    this.setState({
       timeEntries: [...this.state.timeEntries, [date.toJSON(), ""]]
     });
+  };
+
+  saveLogIn = (date) => {
+    this.updateLogInTimeEntriesState(date);
+
+    this.setState({
+      isLogInCellPopulated: "load"
+    });
+
     let values = [[date]];
 
     let body = {
@@ -116,19 +138,21 @@ class App extends React.Component {
           resource: body
         })
         .then((response) => {
-          let result = response.result;
-          console.log(`${result.updates.updatedCells} cells appended.`);
+          //let result = response.result;
+          //console.log(`${result.updates.updatedCells} cells appended.`);
           this.retrieveData();
         });
     });
   };
 
   saveLogOut = (date) => {
+    this.updateLogOutTimeEntriesState(date);
+
     this.setState({
       isLogInCellPopulated: "load"
     });
 
-    let range = `Sheet1!B${this.state.timeEntries.length + 1}:C`;
+    let range = `Sheet1!B${this.state.timeEntries.length + 2}:C`;
 
     let values = [[date]];
 
@@ -145,8 +169,8 @@ class App extends React.Component {
           resource: body
         })
         .then((response) => {
-          var result = response.result;
-          console.log(`${result.updatedCells} cells updated.`);
+          //var result = response.result;
+          //console.log(`${result.updatedCells} cells updated.`);
           this.retrieveData();
         });
     });

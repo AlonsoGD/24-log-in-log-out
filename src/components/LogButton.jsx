@@ -18,7 +18,7 @@ class LogButton extends React.Component {
 
   render() {
     if (this.props.isLogInCellPopulated === "load") {
-      return <button disabled={true}>Loading...</button>;
+      return <button disabled={true}>Saving data...</button>;
     }
 
     return (

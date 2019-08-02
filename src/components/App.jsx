@@ -57,7 +57,7 @@ class App extends React.Component {
 
   //checks if log in cell in the spreadsheet is populated
   isLogInCellPopulated = () => {
-    if (this.state.timeEntries === undefined) {
+    if (this.state.timeEntries.length === 0) {
       this.setState({ isLogInCellPopulated: false });
     } else {
       let lastTimeEntry = this.state.timeEntries[
@@ -81,7 +81,11 @@ class App extends React.Component {
         })
         .then(
           (response) => {
-            this.setState({ timeEntries: response.result.values });
+            if (response.result.values !== undefined) {
+              this.setState({
+                timeEntries: response.result.values
+              });
+            }
           },
           (response) => {
             console.log("Error: " + response.result.error.message);
@@ -94,7 +98,10 @@ class App extends React.Component {
   };
 
   saveLogIn = (date) => {
-    this.setState({ isLogInCellPopulated: "load" });
+    this.setState({
+      isLogInCellPopulated: "load",
+      timeEntries: [...this.state.timeEntries, [date.toJSON(), ""]]
+    });
     let values = [[date]];
 
     let body = {
@@ -117,7 +124,10 @@ class App extends React.Component {
   };
 
   saveLogOut = (date) => {
-    this.setState({ isLogInCellPopulated: "load" });
+    this.setState({
+      isLogInCellPopulated: "load"
+    });
+
     let range = `Sheet1!B${this.state.timeEntries.length + 1}:C`;
 
     let values = [[date]];

@@ -1,12 +1,8 @@
 import React from "react";
 
 const TimeEntriesTable = (props) => {
-  if (props.timeEntries === []) {
-    return <div>Loading...</div>;
-  }
-
   const renderTableData = () => {
-    if (props.timeEntries === undefined) {
+    if (props.timeEntries.length === 0) {
       return (
         <tr>
           <td>No entries yet...</td>

@@ -16,7 +16,9 @@ const ISODateStringToLocaleString = (date) => {
     weekday: "long",
     year: "numeric",
     month: "long",
-    day: "numeric"
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
   };
   if (date !== undefined && date !== "") {
     return new Date(date).toLocaleTimeString("en-CA", options);
@@ -35,7 +37,7 @@ const elapsedTime = (date1, date2) => {
     diff.minutes = Math.floor((elapsed / 60) % 60);
     diff.seconds = Math.floor(elapsed % 60);
 
-    let message = `${diff.days}d ${diff.hours} hours ${diff.minutes} minutes`;
+    let message = `${diff.days}d ${diff.hours} h ${diff.minutes} m`;
     message = message.replace(/(?:0. )+/, "");
     return message;
   }

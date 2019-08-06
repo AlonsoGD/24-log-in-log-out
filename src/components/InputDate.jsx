@@ -2,6 +2,8 @@ import React from "react";
 import { toTimeInputValue, toDateInputValue } from "../helpers.js";
 import LogButton from "./LogButton.jsx";
 
+import "./CustomDatePicker.css";
+
 class InputDate extends React.Component {
   state = {
     date: toDateInputValue(),

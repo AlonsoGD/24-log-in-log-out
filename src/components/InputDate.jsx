@@ -1,43 +1,33 @@
 import React from "react";
-import { toTimeInputValue, toDateInputValue } from "../helpers.js";
+//import { toTimeInputValue, toDateInputValue } from "../helpers.js";
+
+import Flatpickr from "react-flatpickr";
 import LogButton from "./LogButton.jsx";
 
 import "./CustomDatePicker.css";
+import "flatpickr/dist/themes/light.css";
 
 class InputDate extends React.Component {
   state = {
-    date: toDateInputValue(),
-    time: toTimeInputValue()
-  };
-
-  stateToDate = () => {
-    let fullDate = this.state.date + " " + this.state.time;
-    return new Date(fullDate);
+    date: new Date()
   };
 
   saveLogIn = () => {
-    this.props.saveLogIn(this.stateToDate());
+    this.props.saveLogIn(this.state.date);
   };
 
   saveLogOut = () => {
-    this.props.saveLogOut(this.stateToDate());
+    this.props.saveLogOut(this.state.date);
   };
 
   render() {
     return (
       <>
-        <input
-          type="date"
+        <Flatpickr
+          data-enable-time
           value={this.state.date}
-          onChange={(e) => {
-            this.setState({ date: e.target.value });
-          }}
-        />
-        <input
-          type="time"
-          value={this.state.time}
-          onChange={(e) => {
-            this.setState({ time: e.target.value });
+          onChange={(date) => {
+            this.setState({ date: new Date(date) });
           }}
         />
         <LogButton

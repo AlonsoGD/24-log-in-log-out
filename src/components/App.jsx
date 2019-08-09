@@ -1,8 +1,10 @@
 import React from "react";
 
+import HeaderTitle from "./HeaderTitle.jsx";
 import TimeEntriesTable from "./TimeEntriesTable.jsx";
 import InputDate from "./InputDate.jsx";
 import AuthButton from "./AuthButton.jsx";
+import Background from "./Background.jsx";
 
 import config from "../config";
 import styles from "./App.module.css";
@@ -182,34 +184,51 @@ class App extends React.Component {
 
   render() {
     if (this.state.isSignedIn === "load") {
-      return <div>LOADING...</div>;
+      return (
+        <>
+          <div>LOADING...</div>
+          <Background />
+        </>
+      );
     } else if (this.state.isSignedIn === false) {
       return (
-        <div className={styles.test}>
+        <>
+          <div className={styles.header_bar}>
+            <HeaderTitle title="Time Logger" />
+            <AuthButton
+              handleAuthClick={this.handleAuthClick}
+              handleSignoutClick={this.handleSignoutClick}
+              isSignedIn={this.state.isSignedIn}
+            />
+          </div>
+          <div>Please sign in with your Google Account</div>
+          <Background />
+        </>
+      );
+    }
+
+    return (
+      <>
+        <div className={styles.header_bar}>
+          <HeaderTitle title="Time Logger" />
           <AuthButton
             handleAuthClick={this.handleAuthClick}
             handleSignoutClick={this.handleSignoutClick}
             isSignedIn={this.state.isSignedIn}
           />
-          <div>Please sign in with your Google Account</div>
         </div>
-      );
-    }
-
-    return (
-      <div className={styles.test}>
-        <AuthButton
-          handleAuthClick={this.handleAuthClick}
-          handleSignoutClick={this.handleSignoutClick}
-          isSignedIn={this.state.isSignedIn}
-        />
-        <TimeEntriesTable timeEntries={this.state.timeEntries} />
-        <InputDate
-          saveLogIn={this.saveLogIn}
-          saveLogOut={this.saveLogOut}
-          isLogInCellPopulated={this.state.isLogInCellPopulated}
-        />
-      </div>
+        <div className={styles.timeEntries_section}>
+          <TimeEntriesTable timeEntries={this.state.timeEntries} />
+        </div>
+        <div className={styles.inputDate_section}>
+          <InputDate
+            saveLogIn={this.saveLogIn}
+            saveLogOut={this.saveLogOut}
+            isLogInCellPopulated={this.state.isLogInCellPopulated}
+          />
+        </div>
+        <Background />
+      </>
     );
   }
 }

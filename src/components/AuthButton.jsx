@@ -1,5 +1,7 @@
 import React from "react";
 
+import styles from "./AuthButton.module.css";
+import GoogleIcon from "./GoogleIcon";
 class AuthButton extends React.Component {
   /**
    *  Sign in the user upon button click.
@@ -34,11 +36,18 @@ class AuthButton extends React.Component {
     if (this.props.isSignedIn === true) {
       return "Log out";
     }
-    return "Log in";
+    return "Sign in with Google";
   };
 
   render() {
-    return <button onClick={this.action}>{this.buttonTextHandler()}</button>;
+    return (
+      <button className={styles.google_button} onClick={this.action}>
+        <span className={styles.google_icon}>
+          <GoogleIcon />
+        </span>
+        <span className={styles.text}>{this.buttonTextHandler()}</span>
+      </button>
+    );
   }
 }
 

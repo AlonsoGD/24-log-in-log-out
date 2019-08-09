@@ -19,7 +19,6 @@ class App extends React.Component {
   initClient = () => {
     window.gapi.client
       .init({
-        apiKey: config.API_KEY,
         clientId: config.CLIENT_ID,
         discoveryDocs: config.DISCOVERY_DOCS,
         scope: config.SCOPES
@@ -194,12 +193,16 @@ class App extends React.Component {
       return (
         <>
           <div className={styles.header_bar}>
-            <HeaderTitle title="Time Logger" />
-            <AuthButton
-              handleAuthClick={this.handleAuthClick}
-              handleSignoutClick={this.handleSignoutClick}
-              isSignedIn={this.state.isSignedIn}
-            />
+            <div className={styles.header_title}>
+              <HeaderTitle title="Time Logger" />
+            </div>
+            <div className={styles.auth_button}>
+              <AuthButton
+                handleAuthClick={this.handleAuthClick}
+                handleSignoutClick={this.handleSignoutClick}
+                isSignedIn={this.state.isSignedIn}
+              />
+            </div>
           </div>
           <div>Please sign in with your Google Account</div>
           <Background />
@@ -210,12 +213,16 @@ class App extends React.Component {
     return (
       <>
         <div className={styles.header_bar}>
-          <HeaderTitle title="Time Logger" />
-          <AuthButton
-            handleAuthClick={this.handleAuthClick}
-            handleSignoutClick={this.handleSignoutClick}
-            isSignedIn={this.state.isSignedIn}
-          />
+          <div className={styles.header_title}>
+            <HeaderTitle title="Time Logger" />
+          </div>
+          <div className={styles.auth_button}>
+            <AuthButton
+              handleAuthClick={this.handleAuthClick}
+              handleSignoutClick={this.handleSignoutClick}
+              isSignedIn={this.state.isSignedIn}
+            />
+          </div>
         </div>
         <div className={styles.timeEntries_section}>
           <TimeEntriesTable timeEntries={this.state.timeEntries} />

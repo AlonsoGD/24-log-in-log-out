@@ -11,7 +11,7 @@ html {
   font-size: 20px;
   display: flex;
   justify-content: center;
-  margin: 15px;
+  margin: 15px 10px;
   color: #3d3d3d;
   max-width: 100%;
   overflow-x: hidden;
@@ -20,6 +20,8 @@ html {
 .header_bar {
   display: flex;
   justify-content: center;
+  flex-flow: row wrap;
+  align-items: center;
 }
 
 .inputDate_section {
@@ -30,4 +32,16 @@ html {
 
 .timeEntries_section {
   margin: 1.5em;
+  padding: 2em;
+  background-color: #e5e5e5;
+  border-radius: 15px;
+  box-shadow: 0px 4px 20px #0000004d
+}
+
+.auth_button{
+  margin: 10px 20px;
+}
+
+.header_title {
+  margin: 10px 20px;
 }

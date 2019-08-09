@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./LogButton.module.css";
 
 class LogButton extends React.Component {
   action = () => {
@@ -18,11 +19,15 @@ class LogButton extends React.Component {
 
   render() {
     if (this.props.isLogInCellPopulated === "load") {
-      return <button disabled={true}>Saving data...</button>;
+      return (
+        <button className={styles.action_btn} disabled={true}>
+          Saving data...
+        </button>
+      );
     }
 
     return (
-      <button ref="btn" onClick={this.action}>
+      <button className={styles.action_btn} ref="btn" onClick={this.action}>
         {this.buttonTextHandler()}
       </button>
     );

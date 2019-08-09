@@ -24,18 +24,16 @@ const TimeEntriesTable = (props) => {
   };
 
   return (
-    <div>
-      <table>
-        <tbody>
-          <tr>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Time Spent</th>
-          </tr>
-          {renderTableData()}
-        </tbody>
-      </table>
-    </div>
+    <table>
+      <tbody>
+        <tr>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Time Spent</th>
+        </tr>
+        {renderTableData()}
+      </tbody>
+    </table>
   );
 };
 

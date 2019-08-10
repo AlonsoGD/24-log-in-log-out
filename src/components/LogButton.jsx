@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./LogButton.module.css";
+import styles from "./styles/Buttons.module.css";
 
 class LogButton extends React.Component {
   action = () => {
@@ -20,15 +20,22 @@ class LogButton extends React.Component {
   render() {
     if (this.props.isLogInCellPopulated === "load") {
       return (
-        <button className={styles.action_btn} disabled={true}>
-          Saving data...
+        <button
+          className={`${styles.google_button} ${styles.google_button__action}`}
+          disabled={true}
+        >
+          <span className={styles.text}>Saving data...</span>
         </button>
       );
     }
 
     return (
-      <button className={styles.action_btn} ref="btn" onClick={this.action}>
-        {this.buttonTextHandler()}
+      <button
+        className={`${styles.google_button} ${styles.google_button__action}`}
+        ref="btn"
+        onClick={this.action}
+      >
+        <span className={styles.text}>{this.buttonTextHandler()}</span>
       </button>
     );
   }

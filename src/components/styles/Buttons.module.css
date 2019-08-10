@@ -1,0 +1,60 @@
+.google_button {
+  height: 40px;
+  border-width: 0;
+  border-radius: 5px;
+  white-space: nowrap;
+  box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.05);
+  transition-property: box-shadow;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
+  padding: 0;
+  cursor: pointer;
+}
+.google_button:focus,
+.google_button:hover {
+  box-shadow: 1px 4px 5px 1px rgba(0, 0, 0, 0.1);
+}
+.google_button:active {
+  background-color: #e5e5e5;
+  box-shadow: none;
+  transition-duration: 10ms;
+}
+
+.google_button:disabled {
+  color: #929292;
+  background: #b3b0b0;
+}
+
+.google_button:disabled:hover {
+  color: #929292;
+  background: #b3b0b0;
+  box-shadow: none;
+}
+
+.google_button__signIn {
+  background: white;
+  color: #737373;
+}
+
+.google_button__action {
+  background: linear-gradient(45deg, #2196f3 30%, #21cbf3 90%);
+  color: #fff;
+}
+
+.text {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 24px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "Roboto", arial, sans-serif;
+}
+
+.google_icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 8px 0 8px 8px;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+}

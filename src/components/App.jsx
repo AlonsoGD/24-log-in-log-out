@@ -7,7 +7,7 @@ import AuthButton from "./AuthButton.jsx";
 import Background from "./Background.jsx";
 
 import config from "../config";
-import styles from "./App.module.css";
+import styles from "./styles/App.module.css";
 
 class App extends React.Component {
   state = {
@@ -212,7 +212,7 @@ class App extends React.Component {
 
     return (
       <>
-        <div className={styles.header_bar}>
+        <header className={styles.header_bar}>
           <div className={styles.header_title}>
             <HeaderTitle title="Time Logger" />
           </div>
@@ -223,17 +223,17 @@ class App extends React.Component {
               isSignedIn={this.state.isSignedIn}
             />
           </div>
-        </div>
-        <div className={styles.timeEntries_section}>
+        </header>
+        <section className={styles.timeEntries_section}>
           <TimeEntriesTable timeEntries={this.state.timeEntries} />
-        </div>
-        <div className={styles.inputDate_section}>
+        </section>
+        <section className={styles.inputDate_section}>
           <InputDate
             saveLogIn={this.saveLogIn}
             saveLogOut={this.saveLogOut}
             isLogInCellPopulated={this.state.isLogInCellPopulated}
           />
-        </div>
+        </section>
         <Background />
       </>
     );

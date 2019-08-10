@@ -1,6 +1,6 @@
 import React from "react";
 
-import styles from "./AuthButton.module.css";
+import styles from "./styles/Buttons.module.css";
 import GoogleIcon from "./GoogleIcon";
 class AuthButton extends React.Component {
   /**
@@ -41,7 +41,10 @@ class AuthButton extends React.Component {
 
   render() {
     return (
-      <button className={styles.google_button} onClick={this.action}>
+      <button
+        className={`${styles.google_button} ${styles.google_button__signIn}`}
+        onClick={this.action}
+      >
         <span className={styles.google_icon}>
           <GoogleIcon />
         </span>

@@ -4,7 +4,7 @@ import React from "react";
 import Flatpickr from "react-flatpickr";
 import LogButton from "./LogButton.jsx";
 
-import "./InputDate.css";
+import "./styles/InputDate.css";
 
 class InputDate extends React.Component {
   state = {

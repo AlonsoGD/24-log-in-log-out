@@ -4,13 +4,27 @@ import { elapsedTime, ISODateStringToLocaleString } from "../helpers.js";
 const TimeEntriesTable = (props) => {
   const tableStyle = { border: "1px solid black", padding: "5px" };
 
-  const renderTableData = () => {
+  const renderHeaders = () => {
     if (props.timeEntries.length === 0) {
       return (
         <tr>
           <td>No entries yet...</td>
         </tr>
       );
+    }
+
+    return (
+      <tr>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Time Spent</th>
+      </tr>
+    );
+  };
+
+  const renderTableData = () => {
+    if (props.timeEntries.length === 0) {
+      return;
     }
     return props.timeEntries.map((e) => {
       return (
@@ -26,11 +40,7 @@ const TimeEntriesTable = (props) => {
   return (
     <table>
       <tbody>
-        <tr>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Time Spent</th>
-        </tr>
+        {renderHeaders()}
         {renderTableData()}
       </tbody>
     </table>

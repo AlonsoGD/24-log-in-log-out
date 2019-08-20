@@ -9,6 +9,7 @@
   transition-timing-function: ease-in-out;
   padding: 0;
   cursor: pointer;
+  margin: 1.4em;
 }
 .google_button:focus,
 .google_button:hover {

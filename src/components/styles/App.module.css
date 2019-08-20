@@ -25,23 +25,22 @@ html {
 }
 
 .inputDate_section {
-  display: flex;
-  justify-content: center;
   margin: 1.5em;
+  margin-bottom: 360px;
+  text-align: center;
 }
 
 .timeEntries_section {
   margin: 1.5em;
   padding: 2em;
-  background-color: #e5e5e5;
+  background-color: white;
   border-radius: 15px;
-  box-shadow: 0px 4px 20px #0000004d
+  box-shadow: 0px 4px 20px #0000004d;
 }
-
-.auth_button{
-  margin: 10px 20px;
-}
-
 .header_title {
   margin: 10px 20px;
+}
+
+.m_15 {
+  margin: 15px;
 }

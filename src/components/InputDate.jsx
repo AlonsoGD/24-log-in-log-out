@@ -25,6 +25,7 @@ class InputDate extends React.Component {
         <Flatpickr
           data-enable-time
           value={this.state.date}
+          options={{ static: true }}
           onChange={(date) => {
             this.setState({ date: new Date(date) });
           }}

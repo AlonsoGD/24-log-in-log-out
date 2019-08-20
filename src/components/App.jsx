@@ -228,11 +228,16 @@ class App extends React.Component {
           <TimeEntriesTable timeEntries={this.state.timeEntries} />
         </section>
         <section className={styles.inputDate_section}>
-          <InputDate
-            saveLogIn={this.saveLogIn}
-            saveLogOut={this.saveLogOut}
-            isLogInCellPopulated={this.state.isLogInCellPopulated}
-          />
+          <div className={styles.m_15}>
+            <h3>Select the date and save the entry:</h3>
+          </div>
+          <div>
+            <InputDate
+              saveLogIn={this.saveLogIn}
+              saveLogOut={this.saveLogOut}
+              isLogInCellPopulated={this.state.isLogInCellPopulated}
+            />
+          </div>
         </section>
         <Background />
       </>

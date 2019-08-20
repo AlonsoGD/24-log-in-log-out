@@ -2,7 +2,12 @@ import React from "react";
 import { elapsedTime, ISODateStringToLocaleString } from "../helpers.js";
 
 const TimeEntriesTable = (props) => {
-  const tableStyle = { border: "1px solid black", padding: "5px" };
+  const tableStyle = { borderBottom: "1px dashed black", padding: "15px" };
+  const headersStyle = {
+    borderBottom: "3px solid black",
+    padding: "5px 15px",
+    textAlign: "left"
+  };
 
   const renderHeaders = () => {
     if (props.timeEntries.length === 0) {
@@ -15,9 +20,9 @@ const TimeEntriesTable = (props) => {
 
     return (
       <tr>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Time Spent</th>
+        <th style={headersStyle}>Start Time</th>
+        <th style={headersStyle}>End Time</th>
+        <th style={headersStyle}>Time Spent</th>
       </tr>
     );
   };

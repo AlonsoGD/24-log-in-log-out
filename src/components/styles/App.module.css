@@ -5,15 +5,13 @@
   padding: 0px;
 }
 
-body,
-html {
+body {
   font-family: "Roboto", sans-serif;
   font-size: 20px;
   display: flex;
   justify-content: center;
-  margin: 15px 10px;
+  padding: 25px 10px;
   color: #3d3d3d;
-  max-width: 100%;
   overflow-x: hidden;
 }
 
@@ -42,4 +40,8 @@ html {
 
 .m_15 {
   margin: 15px;
+}
+
+.centered {
+  text-align: center;
 }

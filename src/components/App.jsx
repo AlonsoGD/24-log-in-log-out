@@ -204,7 +204,9 @@ class App extends React.Component {
               />
             </div>
           </div>
-          <div>Please sign in with your Google Account</div>
+          <div className={styles.centered}>
+            Please sign in with your Google Account
+          </div>
           <Background />
         </>
       );

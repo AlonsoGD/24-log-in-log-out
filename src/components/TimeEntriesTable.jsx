@@ -3,9 +3,11 @@ import { elapsedTime, ISODateStringToLocaleString } from "../helpers.js";
 
 import styles from "./styles/TimeEntries.module.css";
 
-const TimeEntriesTable = (props) => {
-  const renderHeaders = () => {
-    if (props.timeEntries.length === 0) {
+class TimeEntriesTable extends React.Component {
+  state = { dateFormat: "default" };
+
+  renderHeaders = () => {
+    if (this.props.timeEntries.length === 0) {
       return (
         <tr>
           <td>No entries yet...</td>
@@ -22,13 +24,13 @@ const TimeEntriesTable = (props) => {
     );
   };
 
-  const renderTableData = () => {
-    if (props.timeEntries.length === 0) {
+  renderTableData = () => {
+    if (this.props.timeEntries.length === 0) {
       return;
     }
-    return props.timeEntries.map((e) => {
+    return this.props.timeEntries.map((e) => {
       return (
-        <tr key={props.timeEntries.indexOf(e)}>
+        <tr key={this.props.timeEntries.indexOf(e)}>
           <td className={styles.te_cells}>
             {ISODateStringToLocaleString(e[0])}
           </td>
@@ -41,14 +43,16 @@ const TimeEntriesTable = (props) => {
     });
   };
 
-  return (
-    <table className={styles.te_table}>
-      <tbody>
-        {renderHeaders()}
-        {renderTableData()}
-      </tbody>
-    </table>
-  );
-};
+  render() {
+    return (
+      <table className={styles.te_table}>
+        <tbody>
+          {this.renderHeaders()}
+          {this.renderTableData()}
+        </tbody>
+      </table>
+    );
+  }
+}
 
 export default TimeEntriesTable;

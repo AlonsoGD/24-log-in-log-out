@@ -4,13 +4,10 @@
   border: 0;
 }
 
-.te_headers {
-  padding: 20px 25px;
-  text-align: left;
-}
-
+.te_headers,
 .te_cells {
   padding: 20px 25px;
+  text-align: left;
 }
 
 tr:nth-child(2n) {
@@ -24,4 +21,14 @@ tr:last-child td:last-child {
 }
 tr:last-child td:first-child {
   border-bottom-left-radius: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  .te_table {
+    font-size: 16px;
+  }
+  .te_cells,
+  .te_headers {
+    padding: 10px;
+  }
 }

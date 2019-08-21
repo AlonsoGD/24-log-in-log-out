@@ -1,0 +1,27 @@
+.te_table {
+  border-spacing: 0px !important;
+  border-collapse: collapse;
+  border: 0;
+}
+
+.te_headers {
+  padding: 20px 25px;
+  text-align: left;
+}
+
+.te_cells {
+  padding: 20px 25px;
+}
+
+tr:nth-child(2n) {
+  background-color: white;
+  border-spacing: 0px !important;
+  border-collapse: collapse;
+}
+
+tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}
+tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}

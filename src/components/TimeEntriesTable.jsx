@@ -1,14 +1,9 @@
 import React from "react";
 import { elapsedTime, ISODateStringToLocaleString } from "../helpers.js";
 
-const TimeEntriesTable = (props) => {
-  const tableStyle = { borderBottom: "1px dashed black", padding: "15px" };
-  const headersStyle = {
-    borderBottom: "3px solid black",
-    padding: "5px 15px",
-    textAlign: "left"
-  };
+import styles from "./styles/TimeEntries.module.css";
 
+const TimeEntriesTable = (props) => {
   const renderHeaders = () => {
     if (props.timeEntries.length === 0) {
       return (
@@ -19,10 +14,10 @@ const TimeEntriesTable = (props) => {
     }
 
     return (
-      <tr>
-        <th style={headersStyle}>Start Time</th>
-        <th style={headersStyle}>End Time</th>
-        <th style={headersStyle}>Time Spent</th>
+      <tr className={styles.te_row}>
+        <th className={styles.te_headers}>START TIME</th>
+        <th className={styles.te_headers}>END TIME</th>
+        <th className={styles.te_headers}>TIME SPENT</th>
       </tr>
     );
   };
@@ -34,16 +29,20 @@ const TimeEntriesTable = (props) => {
     return props.timeEntries.map((e) => {
       return (
         <tr key={props.timeEntries.indexOf(e)}>
-          <td style={tableStyle}>{ISODateStringToLocaleString(e[0])}</td>
-          <td style={tableStyle}>{ISODateStringToLocaleString(e[1])}</td>
-          <td style={tableStyle}>{elapsedTime(e[0], e[1])}</td>
+          <td className={styles.te_cells}>
+            {ISODateStringToLocaleString(e[0])}
+          </td>
+          <td className={styles.te_cells}>
+            {ISODateStringToLocaleString(e[1])}
+          </td>
+          <td className={styles.te_cells}>{elapsedTime(e[0], e[1])}</td>
         </tr>
       );
     });
   };
 
   return (
-    <table>
+    <table className={styles.te_table}>
       <tbody>
         {renderHeaders()}
         {renderTableData()}

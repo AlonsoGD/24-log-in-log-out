@@ -218,17 +218,7 @@ class App extends React.Component {
           <div className={styles.header_title}>
             <HeaderTitle title="Time Logger" />
           </div>
-          <div className={styles.auth_button}>
-            <AuthButton
-              handleAuthClick={this.handleAuthClick}
-              handleSignoutClick={this.handleSignoutClick}
-              isSignedIn={this.state.isSignedIn}
-            />
-          </div>
         </header>
-        <section className={styles.timeEntries_section}>
-          <TimeEntriesTable timeEntries={this.state.timeEntries} />
-        </section>
         <section className={styles.inputDate_section}>
           <div className={styles.m_15}>
             <h3>Select the date and save the entry:</h3>
@@ -241,6 +231,16 @@ class App extends React.Component {
             />
           </div>
         </section>
+        <section className={styles.timeEntries_section}>
+          <TimeEntriesTable timeEntries={this.state.timeEntries} />
+        </section>
+        <div className={styles.auth_button_wrapper}>
+          <AuthButton
+            handleAuthClick={this.handleAuthClick}
+            handleSignoutClick={this.handleSignoutClick}
+            isSignedIn={this.state.isSignedIn}
+          />
+        </div>
         <Background />
       </>
     );

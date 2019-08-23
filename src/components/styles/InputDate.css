@@ -1,26 +1,26 @@
-.flatpickr-wrapper input {
+input {
   box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.05);
   border-radius: 8px;
-  text-align: center;
+  text-align: center !important;
   font-family: inherit;
   font-size: inherit;
   height: 55px;
   margin-top: 18px;
   border-style: solid;
   border: none;
-  width: 190px;
-
+  width: 100%;
+  background-color: white;
   transition-property: box-shadow;
   transition-duration: 150ms;
   transition-timing-function: ease-in-out;
 }
 
-.flatpickr-wrapper input:focus,
-.flatpickr-wrapper input:hover {
+input:focus,
+input:hover {
   box-shadow: 1px 4px 5px 1px rgba(0, 0, 0, 0.1);
 }
 
-.flatpickr-wrapper input:active {
+input:active {
   background-color: #e5e5e5;
   box-shadow: none;
   transition-duration: 10ms;
@@ -831,4 +831,10 @@ span.flatpickr-weekday {
 }
 span.flatpickr-day.selected {
   font-weight: bold;
+}
+
+@media screen and (max-width: 600px) {
+  input {
+    width: 245px;
+  }
 }

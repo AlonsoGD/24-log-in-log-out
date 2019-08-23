@@ -23,8 +23,8 @@ body {
 }
 
 .inputDate_section {
-  margin: 1.5em;
-  margin-bottom: 360px;
+  margin: 0.5em 1.5em;
+  /* margin-bottom: 360px; */
   text-align: center;
 }
 
@@ -43,5 +43,9 @@ body {
 }
 
 .centered {
+  text-align: center;
+}
+
+.auth_button_wrapper {
   text-align: center;
 }

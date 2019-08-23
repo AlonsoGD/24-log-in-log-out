@@ -10,7 +10,7 @@ class TimeEntriesTable extends React.Component {
     if (this.props.timeEntries.length === 0) {
       return (
         <tr>
-          <td>No entries yet...</td>
+          <td className={styles.te_cells}>No entries yet...</td>
         </tr>
       );
     }

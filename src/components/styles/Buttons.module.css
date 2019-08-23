@@ -59,3 +59,9 @@
   height: 18px;
   box-sizing: border-box;
 }
+
+@media screen and (max-width: 600px) {
+  .google_button {
+    width: 245px;
+  }
+}

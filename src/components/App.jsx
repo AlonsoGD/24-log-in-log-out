@@ -30,7 +30,7 @@ class App extends React.Component {
           this.setState({
             isSignedIn: window.gapi.auth2.getAuthInstance().isSignedIn.get()
           });
-          this.retrieveData();
+          this.retrieveUserData();
         },
         (error) => {
           console.log(JSON.stringify(error, null, 2));
@@ -45,7 +45,7 @@ class App extends React.Component {
     this.setState({
       isSignedIn: statusFromAuthButton
     });
-    this.retrieveData();
+    this.retrieveUserData();
   };
 
   /**
@@ -74,11 +74,38 @@ class App extends React.Component {
     }
   };
 
+  retrieveUserData = () => {
+    let searchSpreadsheetID = (myArray) => {
+      for (let i = 0; i < myArray.length; i++) {
+        if (myArray[i][0] === userEmail) {
+          console.log(myArray[i][1]);
+          return myArray[i][1];
+        }
+      }
+    };
+
+    if (this.state.isSignedIn === true) {
+      window.gapi.client.sheets.spreadsheets.values
+        .get({
+          spreadsheetId: config.DB_SPREADSHEETID,
+          range: "Sheet1!A2:C"
+        })
+        .then(
+          (response) => {
+            searchSpreadsheetID(response.result.values);
+          },
+          (response) => {
+            alert("Error: " + response.result.error.message);
+          }
+        );
+    }
+  };
+
   retrieveData = () => {
     if (this.state.isSignedIn === true) {
       window.gapi.client.sheets.spreadsheets.values
         .get({
-          spreadsheetId: config.SPREADSHEETID,
+          USER_SPREADSHEETID: config.USER_SPREADSHEETID,
           range: "Sheet1!A2:C"
         })
         .then(
@@ -133,7 +160,7 @@ class App extends React.Component {
     window.gapi.client.load("sheets", "v4", () => {
       window.gapi.client.sheets.spreadsheets.values
         .append({
-          spreadsheetId: config.SPREADSHEETID,
+          USER_SPREADSHEETID: config.USER_SPREADSHEETID,
           range: "Sheet1",
           valueInputOption: "USER_ENTERED",
           resource: body
@@ -164,7 +191,7 @@ class App extends React.Component {
     window.gapi.client.load("sheets", "v4", () => {
       window.gapi.client.sheets.spreadsheets.values
         .update({
-          spreadsheetId: config.SPREADSHEETID,
+          USER_SPREADSHEETID: config.USER_SPREADSHEETID,
           range: range,
           valueInputOption: "USER_ENTERED",
           resource: body

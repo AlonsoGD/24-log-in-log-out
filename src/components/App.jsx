@@ -74,14 +74,47 @@ class App extends React.Component {
     }
   };
 
+  createSpreadSheet = () => {
+    window.gapi.client.sheets.spreadsheets
+      .create({
+        properties: {
+          title: "logInLogOut_log"
+        }
+      })
+      .then((response) => {
+        config.USER_SPREADSHEETID = response.result.spreadsheetId;
+      });
+  };
+
+  saveUserInfo = () => {
+    let googleUserOpenId = window.gapi.auth2.getAuthInstance().currentUser.Ab
+      .El;
+
+    let values = [[googleUserOpenId, config.USER_SPREADSHEETID]];
+
+    let body = {
+      values: values
+    };
+    window.gapi.client.load("sheets", "v4", () => {
+      window.gapi.client.sheets.spreadsheets.values.append({
+        spreadsheetId: config.DB_SPREADSHEETID,
+        range: "Sheet1",
+        valueInputOption: "USER_ENTERED",
+        resource: body
+      });
+    });
+  };
+
   searchSpreadsheetID = (myArray) => {
     let googleUserOpenId = window.gapi.auth2.getAuthInstance().currentUser.Ab
       .El;
     for (let i = 0; i < myArray.length; i++) {
       if (myArray[i][0] === googleUserOpenId) {
         config.USER_SPREADSHEETID = myArray[i][1];
-        console.log(config.USER_SPREADSHEETID);
       } else {
+        this.createSpreadSheet().then(() => {
+          this.saveUserInfo();
+        });
       }
     }
   };

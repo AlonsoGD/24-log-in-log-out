@@ -30,7 +30,7 @@ class App extends React.Component {
           this.setState({
             isSignedIn: window.gapi.auth2.getAuthInstance().isSignedIn.get()
           });
-          this.retrieveUserData();
+          this.retrieveUserDB();
         },
         (error) => {
           console.log(JSON.stringify(error, null, 2));
@@ -45,7 +45,7 @@ class App extends React.Component {
     this.setState({
       isSignedIn: statusFromAuthButton
     });
-    this.retrieveUserData();
+    this.retrieveUserDB();
   };
 
   /**
@@ -74,16 +74,19 @@ class App extends React.Component {
     }
   };
 
-  retrieveUserData = () => {
-    let searchSpreadsheetID = (myArray) => {
-      for (let i = 0; i < myArray.length; i++) {
-        if (myArray[i][0] === userEmail) {
-          console.log(myArray[i][1]);
-          return myArray[i][1];
-        }
+  searchSpreadsheetID = (myArray) => {
+    let googleUserOpenId = window.gapi.auth2.getAuthInstance().currentUser.Ab
+      .El;
+    for (let i = 0; i < myArray.length; i++) {
+      if (myArray[i][0] === googleUserOpenId) {
+        config.USER_SPREADSHEETID = myArray[i][1];
+        console.log(config.USER_SPREADSHEETID);
+      } else {
       }
-    };
+    }
+  };
 
+  retrieveUserDB = () => {
     if (this.state.isSignedIn === true) {
       window.gapi.client.sheets.spreadsheets.values
         .get({
@@ -92,20 +95,21 @@ class App extends React.Component {
         })
         .then(
           (response) => {
-            searchSpreadsheetID(response.result.values);
+            this.searchSpreadsheetID(response.result.values);
           },
           (response) => {
             alert("Error: " + response.result.error.message);
           }
-        );
+        )
+        .then(() => this.retrieveEntriesData());
     }
   };
 
-  retrieveData = () => {
+  retrieveEntriesData = () => {
     if (this.state.isSignedIn === true) {
       window.gapi.client.sheets.spreadsheets.values
         .get({
-          USER_SPREADSHEETID: config.USER_SPREADSHEETID,
+          spreadsheetId: config.USER_SPREADSHEETID,
           range: "Sheet1!A2:C"
         })
         .then(
@@ -160,7 +164,7 @@ class App extends React.Component {
     window.gapi.client.load("sheets", "v4", () => {
       window.gapi.client.sheets.spreadsheets.values
         .append({
-          USER_SPREADSHEETID: config.USER_SPREADSHEETID,
+          spreadsheetId: config.USER_SPREADSHEETID,
           range: "Sheet1",
           valueInputOption: "USER_ENTERED",
           resource: body
@@ -168,7 +172,7 @@ class App extends React.Component {
         .then((response) => {
           //let result = response.result;
           //console.log(`${result.updates.updatedCells} cells appended.`);
-          this.retrieveData();
+          this.retrieveEntriesData();
         });
     });
   };
@@ -191,7 +195,7 @@ class App extends React.Component {
     window.gapi.client.load("sheets", "v4", () => {
       window.gapi.client.sheets.spreadsheets.values
         .update({
-          USER_SPREADSHEETID: config.USER_SPREADSHEETID,
+          spreadsheetId: config.USER_SPREADSHEETID,
           range: range,
           valueInputOption: "USER_ENTERED",
           resource: body
@@ -199,7 +203,7 @@ class App extends React.Component {
         .then((response) => {
           //var result = response.result;
           //console.log(`${result.updatedCells} cells updated.`);
-          this.retrieveData();
+          this.retrieveEntriesData();
         });
     });
   };

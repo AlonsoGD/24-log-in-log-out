@@ -83,10 +83,12 @@ class App extends React.Component {
       })
       .then((response) => {
         config.USER_SPREADSHEETID = response.result.spreadsheetId;
+        this.createNewUser();
+        this.retrieveEntriesData();
       });
   };
 
-  saveUserInfo = () => {
+  createNewUser = () => {
     let googleUserOpenId = window.gapi.auth2.getAuthInstance().currentUser.Ab
       .El;
 
@@ -96,25 +98,26 @@ class App extends React.Component {
       values: values
     };
     window.gapi.client.load("sheets", "v4", () => {
-      window.gapi.client.sheets.spreadsheets.values.append({
-        spreadsheetId: config.DB_SPREADSHEETID,
-        range: "Sheet1",
-        valueInputOption: "USER_ENTERED",
-        resource: body
-      });
+      window.gapi.client.sheets.spreadsheets.values
+        .append({
+          spreadsheetId: config.DB_SPREADSHEETID,
+          range: "Sheet1!A2:C",
+          valueInputOption: "USER_ENTERED",
+          resource: body
+        })
+        .then((response) => {
+          let result = response.result;
+          console.log(`${result.updates.updatedCells} cells appended.`);
+        });
     });
   };
 
-  searchSpreadsheetID = (myArray) => {
+  searchSpreadsheetID = (usersDbArray) => {
     let googleUserOpenId = window.gapi.auth2.getAuthInstance().currentUser.Ab
       .El;
-    for (let i = 0; i < myArray.length; i++) {
-      if (myArray[i][0] === googleUserOpenId) {
-        config.USER_SPREADSHEETID = myArray[i][1];
-      } else {
-        this.createSpreadSheet().then(() => {
-          this.saveUserInfo();
-        });
+    for (let i = 0; i < usersDbArray.length; i++) {
+      if (usersDbArray[i][0] === googleUserOpenId) {
+        config.USER_SPREADSHEETID = usersDbArray[i][1];
       }
     }
   };
@@ -134,7 +137,13 @@ class App extends React.Component {
             alert("Error: " + response.result.error.message);
           }
         )
-        .then(() => this.retrieveEntriesData());
+        .then(() => {
+          if (config.USER_SPREADSHEETID === "") {
+            this.createSpreadSheet();
+          } else {
+            this.retrieveEntriesData();
+          }
+        });
     }
   };
 
@@ -143,7 +152,7 @@ class App extends React.Component {
       window.gapi.client.sheets.spreadsheets.values
         .get({
           spreadsheetId: config.USER_SPREADSHEETID,
-          range: "Sheet1!A2:C"
+          range: "Sheet1!A1:C"
         })
         .then(
           (response) => {
@@ -217,7 +226,7 @@ class App extends React.Component {
       isLogInCellPopulated: "load"
     });
 
-    let range = `Sheet1!B${this.state.timeEntries.length + 2}:C`;
+    let range = `Sheet1!B${this.state.timeEntries.length + 1}:C`;
 
     let values = [[date]];
 

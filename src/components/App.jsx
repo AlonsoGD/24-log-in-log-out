@@ -53,7 +53,8 @@ class App extends React.Component {
    */
   handleSignoutClick = (statusFromAuthButton) => {
     this.setState({
-      isSignedIn: statusFromAuthButton
+      isSignedIn: statusFromAuthButton,
+      timeEntries: []
     });
   };
 

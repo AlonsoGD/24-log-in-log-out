@@ -1,10 +1,18 @@
 import React from "react";
 import { elapsedTime, ISODateStringToLocaleString } from "../helpers.js";
+import DateFormatButton from "./DateFormatButton";
 
 import styles from "./styles/TimeEntries.module.css";
 
 class TimeEntriesTable extends React.Component {
-  state = { dateFormat: "default" };
+  state = { dateFormat: "allDigits" };
+
+  cycleDateFormats = () => {
+    const dateFormat = ["short", "long", "allDigits", "narrow"];
+    //let i = 0;
+
+    this.setState({ dateFormat: "long" });
+  };
 
   renderHeaders = () => {
     if (this.props.timeEntries.length === 0) {
@@ -28,16 +36,18 @@ class TimeEntriesTable extends React.Component {
     if (this.props.timeEntries.length === 0) {
       return;
     }
-    return this.props.timeEntries.map((e) => {
+    return this.props.timeEntries.map((dateRecord) => {
       return (
-        <tr key={this.props.timeEntries.indexOf(e)}>
+        <tr key={this.props.timeEntries.indexOf(dateRecord)}>
           <td className={styles.te_cells}>
-            {ISODateStringToLocaleString(e[0])}
+            {ISODateStringToLocaleString(dateRecord[0], this.state.dateFormat)}
           </td>
           <td className={styles.te_cells}>
-            {ISODateStringToLocaleString(e[1])}
+            {ISODateStringToLocaleString(dateRecord[1], this.state.dateFormat)}
           </td>
-          <td className={styles.te_cells}>{elapsedTime(e[0], e[1])}</td>
+          <td className={styles.te_cells}>
+            {elapsedTime(dateRecord[0], dateRecord[1])}
+          </td>
         </tr>
       );
     });
@@ -45,12 +55,15 @@ class TimeEntriesTable extends React.Component {
 
   render() {
     return (
-      <table className={styles.te_table}>
-        <tbody>
-          {this.renderHeaders()}
-          {this.renderTableData()}
-        </tbody>
-      </table>
+      <>
+        <table className={styles.te_table}>
+          <tbody>
+            {this.renderHeaders()}
+            {this.renderTableData()}
+          </tbody>
+        </table>
+        <DateFormatButton cycleDateFormats={this.cycleDateFormats} />
+      </>
     );
   }
 }

@@ -11,17 +11,53 @@ const toTimeInputValue = () => {
 };
 
 /** @date ISO string dates */
-const ISODateStringToLocaleString = (date) => {
-  let options = {
+const ISODateStringToLocaleString = (date, dateFormat) => {
+  let shortOptions = {
     weekday: "short",
-    year: "numeric",
+    year: "2-digit",
     month: "short",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit"
   };
+
+  let longOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  };
+
+  let narrowOptions = {
+    weekday: "narrow",
+    year: "numeric",
+    month: "narrow",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  };
+
+  let allDigitsOptions = {
+    weekday: "narrow",
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit"
+  };
+
   if (date !== undefined && date !== "") {
-    return new Date(date).toLocaleTimeString("en-CA", options);
+    if (dateFormat === "short") {
+      return new Date(date).toLocaleTimeString("en-CA", shortOptions);
+    } else if (dateFormat === "long") {
+      return new Date(date).toLocaleTimeString("en-CA", longOptions);
+    } else if (dateFormat === "narrow") {
+      return new Date(date).toLocaleTimeString("en-CA", narrowOptions);
+    } else if (dateFormat === "allDigits") {
+      return new Date(date).toLocaleTimeString("en-CA", allDigitsOptions);
+    }
   }
 };
 
@@ -41,9 +77,6 @@ const elapsedTime = (date1, date2) => {
     message = message.replace(/(?:0. )+/, "");
     return message;
   }
-  //else {
-  //   return "Elapsed time lesser than 0, i.e. specified datetime is still in the future.";
-  // }
 };
 
 export {

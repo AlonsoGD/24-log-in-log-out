@@ -5,13 +5,21 @@ import DateFormatButton from "./DateFormatButton";
 import styles from "./styles/TimeEntries.module.css";
 
 class TimeEntriesTable extends React.Component {
-  state = { dateFormat: "allDigits" };
+  state = { dateFormat: "allDigits", formatCounter: 0 };
 
   cycleDateFormats = () => {
-    const dateFormat = ["short", "long", "allDigits", "narrow"];
-    //let i = 0;
+    const dateFormat = ["allDigits", "short", "long", "narrow"];
 
-    this.setState({ dateFormat: "long" });
+    if (this.state.formatCounter === dateFormat.length) {
+      this.setState({ dateFormat: dateFormat[0], formatCounter: 0 });
+    }
+
+    this.setState({
+      dateFormat: dateFormat[this.state.formatCounter + 1],
+      formatCounter: this.state.formatCounter + 1
+    });
+
+    console.log(this.state);
   };
 
   renderHeaders = () => {

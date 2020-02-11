@@ -10,16 +10,14 @@ class TimeEntriesTable extends React.Component {
   cycleDateFormats = () => {
     const dateFormat = ["allDigits", "short", "long", "narrow"];
 
-    if (this.state.formatCounter === dateFormat.length) {
-      this.setState({ dateFormat: dateFormat[0], formatCounter: 0 });
-    }
-
     this.setState({
       dateFormat: dateFormat[this.state.formatCounter + 1],
       formatCounter: this.state.formatCounter + 1
     });
 
-    console.log(this.state);
+    if (this.state.formatCounter === dateFormat.length - 1) {
+      this.setState({ dateFormat: dateFormat[0], formatCounter: 0 });
+    }
   };
 
   renderHeaders = () => {

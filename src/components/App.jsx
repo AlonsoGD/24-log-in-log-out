@@ -5,6 +5,7 @@ import TimeEntriesTable from "./TimeEntriesTable.jsx";
 import InputDate from "./InputDate.jsx";
 import AuthButton from "./AuthButton.jsx";
 import Background from "./Background.jsx";
+import NavigationDrawer from "./NavigationDrawer.jsx";
 
 import config from "../config";
 import styles from "./styles/App.module.css";
@@ -269,6 +270,7 @@ class App extends React.Component {
           <div className={styles.header_bar}>
             <div className={styles.header_title}>
               <HeaderTitle title="Time Logger" />
+              <NavigationDrawer></NavigationDrawer>
             </div>
             <div className={styles.auth_button}>
               <AuthButton
@@ -291,6 +293,7 @@ class App extends React.Component {
         <header className={styles.header_bar}>
           <div className={styles.header_title}>
             <HeaderTitle title="Time Logger" />
+            <NavigationDrawer></NavigationDrawer>
           </div>
         </header>
         <section className={styles.inputDate_section}>

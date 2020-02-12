@@ -2,18 +2,22 @@ import React from "react";
 import styles from "./styles/NavigationDrawer.module.css";
 
 class NavigationDrawer extends React.Component {
-  state = { display: "hide" };
+  state = { hideNav: false };
 
   action = () => {
-    console.log("It's clicked");
+    if (this.state.hideNav === true) {
+      this.setState({ hideNav: false });
+    } else {
+      this.setState({ hideNav: true });
+    }
   };
 
   render() {
-    let display = this.state.display;
+    let styleClasses = this.state.hideNav ? styles.show : styles.hide;
     return (
       <>
         <span onClick={this.action}>open</span>
-        <div id="mySidenav" className={`${styles.sidenav} styles.${display}`}>
+        <div id="mySidenav" className={`${styles.sidenav} ${styleClasses}`}>
           <a href="javascript:void(0)">&times;</a>
           <a href="#">About</a>
           <a href="#">Services</a>

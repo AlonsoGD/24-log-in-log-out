@@ -1,5 +1,5 @@
 - [x] ~~Date format switcher~~
-- [ ] Loading spinners
+- [x] ~~Loading spinners~~
 - [ ] Create API and a backend to store the timestamps of every user.
 - [ ] Creating user loading screen
 - [ ] Convert into a PWA

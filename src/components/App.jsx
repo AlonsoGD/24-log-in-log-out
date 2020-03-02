@@ -9,6 +9,7 @@ import NavigationDrawer from "./NavigationDrawer.jsx";
 
 import config from "../config";
 import styles from "./styles/App.module.css";
+import LoadingSpinner from "./LoadingSpinner.jsx";
 
 class App extends React.Component {
   state = {
@@ -275,7 +276,7 @@ class App extends React.Component {
     if (this.state.isSignedIn === "load") {
       return (
         <>
-          <div>LOADING...</div>
+          <LoadingSpinner size="10em" />
           <Background />
         </>
       );

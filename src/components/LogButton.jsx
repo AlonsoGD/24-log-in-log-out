@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./styles/Buttons.module.css";
+import LoadingSpinner from "./LoadingSpinner.jsx";
 
 class LogButton extends React.Component {
   action = () => {
@@ -24,7 +25,9 @@ class LogButton extends React.Component {
           className={`${styles.google_button} ${styles.google_button__action}`}
           disabled={true}
         >
-          <span className={styles.text}>Saving data...</span>
+          <span className={styles.text}>
+            <LoadingSpinner size="2em" />
+          </span>
         </button>
       );
     }

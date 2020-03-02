@@ -1,25 +1,8 @@
 import React from "react";
 import { elapsedTime, ISODateStringToLocaleString } from "../helpers.js";
-import DateFormatButton from "./DateFormatButton";
-
 import styles from "./styles/TimeEntries.module.css";
 
 class TimeEntriesTable extends React.Component {
-  state = { dateFormat: "allDigits", formatCounter: 0 };
-
-  cycleDateFormats = () => {
-    const dateFormat = ["allDigits", "short", "long", "narrow"];
-
-    this.setState({
-      dateFormat: dateFormat[this.state.formatCounter + 1],
-      formatCounter: this.state.formatCounter + 1
-    });
-
-    if (this.state.formatCounter === dateFormat.length - 1) {
-      this.setState({ dateFormat: dateFormat[0], formatCounter: 0 });
-    }
-  };
-
   renderHeaders = () => {
     if (this.props.timeEntries.length === 0) {
       return (
@@ -46,10 +29,10 @@ class TimeEntriesTable extends React.Component {
       return (
         <tr key={this.props.timeEntries.indexOf(dateRecord)}>
           <td className={styles.te_cells}>
-            {ISODateStringToLocaleString(dateRecord[0], this.state.dateFormat)}
+            {ISODateStringToLocaleString(dateRecord[0], this.props.dateFormat)}
           </td>
           <td className={styles.te_cells}>
-            {ISODateStringToLocaleString(dateRecord[1], this.state.dateFormat)}
+            {ISODateStringToLocaleString(dateRecord[1], this.props.dateFormat)}
           </td>
           <td className={styles.te_cells}>
             {elapsedTime(dateRecord[0], dateRecord[1])}
@@ -68,7 +51,6 @@ class TimeEntriesTable extends React.Component {
             {this.renderTableData()}
           </tbody>
         </table>
-        <DateFormatButton cycleDateFormats={this.cycleDateFormats} />
       </>
     );
   }

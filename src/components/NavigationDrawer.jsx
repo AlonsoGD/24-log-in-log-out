@@ -1,6 +1,10 @@
 import React from "react";
 import styles from "./styles/NavigationDrawer.module.css";
 
+import SettingsButton from "./SettingsButton.jsx";
+import DateFormatButton from "./DateFormatButton.jsx";
+import LineDivider from "./LineDivider.jsx";
+
 class NavigationDrawer extends React.Component {
   state = { hideNav: false };
 
@@ -16,13 +20,16 @@ class NavigationDrawer extends React.Component {
     let styleClasses = this.state.hideNav ? styles.show : styles.hide;
     return (
       <>
-        <span onClick={this.action}>open</span>
+        <span onClick={this.action}>
+          <SettingsButton></SettingsButton>
+        </span>
         <div id="mySidenav" className={`${styles.sidenav} ${styleClasses}`}>
-          <a href="javascript:void(0)">&times;</a>
-          <a href="#">About</a>
-          <a href="#">Services</a>
-          <a href="#">Clients</a>
-          <a href="#">Contact</a>
+          <h2 className={styles.navTitle}>Settings</h2>
+          <LineDivider color="#818181"></LineDivider>
+          <button onClick={this.action} className={styles.closebutton}>
+            &times;
+          </button>
+          <DateFormatButton cycleDateFormats={this.props.cycleDateFormats} />
         </div>
       </>
     );

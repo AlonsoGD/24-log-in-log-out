@@ -60,8 +60,22 @@
   box-sizing: border-box;
 }
 
+.settings_button {
+  border-width: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  background-color: unset;
+  opacity: 0.3;
+  transition-duration: 150ms;
+  transition-timing-function: ease-in-out;
+}
+
+.settings_button:hover {
+  opacity: 1;
+}
+
 @media screen and (max-width: 600px) {
   .google_button {
-    width: 245px;
+    /* width: 100%; */
   }
 }

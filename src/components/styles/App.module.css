@@ -49,3 +49,9 @@ body {
 .auth_button_wrapper {
   text-align: center;
 }
+
+.menuButton_wrapper {
+  position: absolute;
+  display: inline-block;
+  top: 50px;
+}

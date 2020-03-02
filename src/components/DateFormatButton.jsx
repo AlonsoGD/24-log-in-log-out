@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./styles/Buttons.module.css";
 
-class LogButton extends React.Component {
+class DateFormatButton extends React.Component {
   action = () => {
     this.props.cycleDateFormats();
   };
@@ -13,10 +13,11 @@ class LogButton extends React.Component {
         ref="btn"
         onClick={this.action}
       >
+        {/* {console.log(this.props)} */}
         <span className={styles.text}>Change date format</span>
       </button>
     );
   }
 }
 
-export default LogButton;
+export default DateFormatButton;

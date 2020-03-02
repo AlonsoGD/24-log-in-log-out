@@ -14,7 +14,22 @@ class App extends React.Component {
   state = {
     isSignedIn: "load",
     timeEntries: [],
-    isLogInCellPopulated: "load"
+    isLogInCellPopulated: "load",
+    dateFormat: "allDigits",
+    formatCounter: 0
+  };
+
+  cycleDateFormats = () => {
+    const dateFormats = ["allDigits", "short", "long", "narrow"];
+
+    this.setState({
+      dateFormat: dateFormats[this.state.formatCounter + 1],
+      formatCounter: this.state.formatCounter + 1
+    });
+
+    if (this.state.formatCounter === dateFormats.length - 1) {
+      this.setState({ dateFormat: dateFormats[0], formatCounter: 0 });
+    }
   };
 
   initClient = () => {
@@ -115,8 +130,8 @@ class App extends React.Component {
   };
 
   searchSpreadsheetID = (usersDbArray) => {
-    let googleUserOpenId = window.gapi.auth2.getAuthInstance().currentUser.Ab
-      .El;
+    let googleUserOpenId = window.gapi.auth2.getAuthInstance().currentUser.je
+      .Ca;
     for (let i = 0; i < usersDbArray.length; i++) {
       if (usersDbArray[i][0] === googleUserOpenId) {
         config.USER_SPREADSHEETID = usersDbArray[i][1];
@@ -270,7 +285,6 @@ class App extends React.Component {
           <div className={styles.header_bar}>
             <div className={styles.header_title}>
               <HeaderTitle title="Time Logger" />
-              <NavigationDrawer></NavigationDrawer>
             </div>
             <div className={styles.auth_button}>
               <AuthButton
@@ -290,10 +304,14 @@ class App extends React.Component {
 
     return (
       <>
+        <div className={styles.menuButton_wrapper}>
+          <NavigationDrawer
+            cycleDateFormats={this.cycleDateFormats}
+          ></NavigationDrawer>
+        </div>
         <header className={styles.header_bar}>
           <div className={styles.header_title}>
             <HeaderTitle title="Time Logger" />
-            <NavigationDrawer></NavigationDrawer>
           </div>
         </header>
         <section className={styles.inputDate_section}>
@@ -309,7 +327,10 @@ class App extends React.Component {
           </div>
         </section>
         <section className={styles.timeEntries_section}>
-          <TimeEntriesTable timeEntries={this.state.timeEntries} />
+          <TimeEntriesTable
+            timeEntries={this.state.timeEntries}
+            dateFormat={this.state.dateFormat}
+          />
         </section>
         <div className={styles.auth_button_wrapper}>
           <AuthButton

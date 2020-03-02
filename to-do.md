@@ -3,3 +3,4 @@
 - [ ] Create API and a backend to store the timestamps of every user.
 - [ ] Creating user loading screen
 - [ ] Convert into a PWA
+- [ ] Calendar view with all data entries to see when you entered and exited.
